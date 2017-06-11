@@ -1,0 +1,1 @@
+--device DARMSTM -g --apcs=interwork -I "d:\Keil\ARM\INC\ST\STM32F10x" --list ".\startup_stm32f10x_hd.lst" --xref -o ".\startup_stm32f10x_hd.o" "..\CORE\startup_stm32f10x_hd.s"
