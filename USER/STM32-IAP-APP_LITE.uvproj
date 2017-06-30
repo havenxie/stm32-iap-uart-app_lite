@@ -75,11 +75,11 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>F:\IAP\stm32-iap-app\Binary\hextobin.bat</UserProg1Name>
-            <UserProg2Name></UserProg2Name>
+            <RunUserProg2>1</RunUserProg2>
+            <UserProg1Name>.\..\Binary\hex2bin.exe .\..\OUTPUT\Demo.hex</UserProg1Name>
+            <UserProg2Name>.\..\Binary\hex2dfu.exe -t  .\..\OUTPUT\Demo.hex</UserProg2Name>
             <UserProg1Dos16Mode>1</UserProg1Dos16Mode>
-            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <UserProg2Dos16Mode>1</UserProg2Dos16Mode>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
