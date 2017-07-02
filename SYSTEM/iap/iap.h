@@ -2,6 +2,7 @@
 #define __IAP_H_
 #include "sys.h"
 
+
 #define APPRUN_FLAG_DATA      0x0000   //APP不需要做任何处理，直接运行状态
 #define INIT_FLAG_DATA        0xFFFF   //默认标志的数据(空片子的情况)
 #define UPDATE_FLAG_DATA      0xEEEE   //下载标志的数据

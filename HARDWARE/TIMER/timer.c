@@ -44,7 +44,7 @@ void TIM3_IRQHandler(void)   //TIM3中断
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
 		{
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
-		LED1=!LED1;
+		LED0=!LED0;
 		}
 }
 
@@ -79,13 +79,15 @@ void TIM3_PWM_Init(u16 arr,u16 psc)
 	//B4 B5 B0 B1
 //	GPIO_PinRemapConfig(GPIO_PartialRemap_TIM3, ENABLE); //Timer3部分重映射    
 
-//   //设置GPIOB.4 5 0 1引脚为复用输出功能,输出TIM3 CH2的PWM脉冲波形	
+//    //设置GPIOB.4 5 0 1引脚为复用输出功能,输出TIM3 CH2的PWM脉冲波形	
 //	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_0 | GPIO_Pin_1; 
 //	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;  //复用推挽输出
 //	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 //	GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化GPIO
-	
-   //初始化TIM3
+//	
+//	GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//B4连到jtag的reset脚，正常为高电平
+   
+    //初始化TIM3
 	TIM_TimeBaseStructure.TIM_Period = arr; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值
 	TIM_TimeBaseStructure.TIM_Prescaler =psc; //设置用来作为TIMx时钟频率除数的预分频值 
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
@@ -107,6 +109,6 @@ void TIM3_PWM_Init(u16 arr,u16 psc)
 	TIM_OC4PreloadConfig(TIM3, TIM_OCPreload_Enable);  //使能TIM3在CCR2上的预装载寄存器
  
 	TIM_Cmd(TIM3, ENABLE);  //使能TIM3
-	//GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);
+	
 
 }

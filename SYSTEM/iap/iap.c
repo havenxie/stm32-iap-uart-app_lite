@@ -15,13 +15,16 @@ u32 IAP_FLASH_ReadFlag(void)
 
 void IAP_Init(void)
 {
+#ifdef USE_IAP
 	u16 clearFlag = 0x0000;  //标志为运行状态
 	IAP_FLASH_WriteFlag( clearFlag );//清除IAP升级标志
 	NVIC_SetVectorTable(ApplicationAddress, IAP_FLASH_SIZE);//设置中断向量表
+#endif
 }
 
 void IAP_Handle(u8 * cmd)
 {
+#ifdef USE_IAP
 	if(strcmp((char *)cmd, "update") == 0)
 	{
 		IAP_FLASH_WriteFlag(UPDATE_FLAG_DATA);
@@ -46,5 +49,6 @@ void IAP_Handle(u8 * cmd)
 		//printf("指令有误\r\n");
 		NVIC_SystemReset();	
 	}
+#endif
 }
 
