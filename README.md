@@ -92,4 +92,6 @@
 
 ## 版本说明：
 - 用户使用master版本即可。
-- 智能灯项目ltelligent_lamp
+
+- 智能灯项目ltelligent_lamp，内含两个工程，一个用来发送命令，另外一个用来接收命令并输出PWM。
+
