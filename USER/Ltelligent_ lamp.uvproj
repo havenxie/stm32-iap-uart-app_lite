@@ -76,8 +76,8 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>1</RunUserProg2>
-            <UserProg1Name>.\..\Binary\hex2bin.exe .\..\OUTPUT\*.hex</UserProg1Name>
-            <UserProg2Name>.\..\Binary\hex2dfu.exe -t  .\..\OUTPUT\*.hex</UserProg2Name>
+            <UserProg1Name>.\..\Binary\hex2bin.exe .\..\OUTPUT\receiver.hex</UserProg1Name>
+            <UserProg2Name>.\..\Binary\hex2dfu.exe -t  .\..\OUTPUT\receiver.hex</UserProg2Name>
             <UserProg1Dos16Mode>1</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>1</UserProg2Dos16Mode>
           </AfterMake>
@@ -478,6 +478,11 @@
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\TIMER\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\KEY\key.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -713,8 +718,8 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>1</RunUserProg2>
-            <UserProg1Name>.\..\Binary\hex2bin.exe .\..\OUTPUT\*.hex</UserProg1Name>
-            <UserProg2Name>.\..\Binary\hex2dfu.exe -t  .\..\OUTPUT\*.hex</UserProg2Name>
+            <UserProg1Name>.\..\Binary\hex2bin.exe .\..\OUTPUT\transmitter.hex</UserProg1Name>
+            <UserProg2Name>.\..\Binary\hex2dfu.exe -t  .\..\OUTPUT\transmitter.hex</UserProg2Name>
             <UserProg1Dos16Mode>1</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>1</UserProg2Dos16Mode>
           </AfterMake>
@@ -994,7 +999,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\HARDWARE\STMFLASH;..\SYSTEM\iap;..\HARDWARE\TIMER</IncludePath>
+              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\HARDWARE\STMFLASH;..\SYSTEM\iap;..\HARDWARE\TIMER;..\HARDWARE\KEY</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1115,6 +1120,11 @@
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\TIMER\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\KEY\key.c</FilePath>
             </File>
           </Files>
         </Group>
