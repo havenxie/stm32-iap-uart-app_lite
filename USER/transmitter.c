@@ -16,16 +16,21 @@ static u16 ch1_val, ch2_val, ch3_val, ch4_val = 0;
 #define CH3 3            //PB0
 #define CH4 4            //PB1
 
-#define FUN_KEY 1        //PA13
-#define VAL_ADD_KEY 2    //PA15
-#define VAL_SUB_KEY 3    //PA0
+#define FUN_KEY 1        //PB10
+#define VAL_ADD_KEY 2    //PB11
+#define VAL_SUB_KEY 3    //PB12
+//#define 
+
+#define MAX_VAL     710
+#define MIN_VAL     0
+#define STEP_VAL    10
 
 #define CHx_Change_Val(rule, value) \
 {\
 	if(rule == VAL_ADD_KEY)\
-		value = value >= 700 ? 700 : value + 10;\
+		value = value >= MAX_VAL ? MAX_VAL : value + STEP_VAL;\
 	else if(rule == VAL_SUB_KEY)\
-		value = value <= 10 ? 0 : value - 10;\
+		value = value <= MIN_VAL ? MIN_VAL : value - STEP_VAL;\
 	current_val = value;\
 }
 
@@ -52,28 +57,32 @@ void Calc_CHx_Val(u8 rule)
 
 void Send_Meg(u8 rule)
 {
+	static u16 this_val = 0;
 	if(rule == FUN_KEY)
 	{
-		USART_RX_BUF[0] = '@';
-		USART_RX_BUF[1] = current_ch + '0';
-		USART_RX_BUF[2] = '\r';
-		USART_RX_BUF[3] = '\n';
-		printf("%s", (char *)USART_RX_BUF);
-		memset(USART_RX_BUF, 0, 4);
+		USART_TX_BUF[0] = '@';
+		USART_TX_BUF[1] = current_ch + '0';
+		USART_TX_BUF[2] = '\r';
+		USART_TX_BUF[3] = '\n';
+		printf("%s", (char *)USART_TX_BUF);
+		memset(USART_TX_BUF, 0, 4);
 	}
-	else
+	else if(this_val != current_val)
 	{
-		USART_RX_BUF[0] = '$';
-		USART_RX_BUF[1] = current_val / 100 + '0';
-		USART_RX_BUF[2] = current_val % 100 / 10 + '0';
-		USART_RX_BUF[3] = current_val % 10 + '0';
-		USART_RX_BUF[4] = '\r';
-		USART_RX_BUF[5] = '\n';
-		printf("%s", (char *)USART_RX_BUF);	
-		memset(USART_RX_BUF, 0, 6);
+		this_val = current_val;
+		USART_TX_BUF[0] = '$';
+		USART_TX_BUF[1] = current_val / 100 + '0';
+		USART_TX_BUF[2] = current_val % 100 / 10 + '0';
+		USART_TX_BUF[3] = current_val % 10 + '0';
+		USART_TX_BUF[4] = '\r';
+		USART_TX_BUF[5] = '\n';
+		printf("%s", (char *)USART_TX_BUF);	
+		memset(USART_TX_BUF, 0, 6);
 	}
 
 }
+
+void Ltelligent_lamp_Handle(u8 * cmd);
 
 int main(void)
 {
@@ -82,8 +91,9 @@ int main(void)
 	NVIC_Configuration();//设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(115200);   //串口初始化为115200
  	KEY_Init();	         //LED端口初始化
+	
 	while(1)
-	{
+	{		
 		switch(KEY_Scan())
 		{
 			case FUN_KEY:
@@ -104,3 +114,6 @@ int main(void)
 		}
 	}	 
 }
+
+
+

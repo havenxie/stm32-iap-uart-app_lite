@@ -64,6 +64,7 @@ int GetKey (void)  {
 */
  
 u8 USART_RX_BUF[64];     //接收缓冲,最大64个字节.
+u8 USART_TX_BUF[6];
 //接收状态
 //bit7，接收完成标志
 //bit6，接收到0x0d

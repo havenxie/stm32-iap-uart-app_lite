@@ -15,9 +15,10 @@ typedef struct
     GPIOMode_TypeDef    BUTTON_MODE;
 }Button_PinModeDef;	
 
-#define KEY0 PAin(13)   //PA13
-#define KEY1 PAin(15)	//PA15 
-#define KEY2 PAin(0)	//PA0  WK_UP
+#define KEY0 PBin(10)   //PB10
+#define KEY1 PBin(11)	//PB11 
+#define KEY2 PBin(12)	//PB12
+#define KEY3 PBin(13)   //PB13
 	 
 void KEY_Init(void);//IO初始化
 u8 KEY_Scan(void);  //按键扫描函数					    

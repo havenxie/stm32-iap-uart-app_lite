@@ -22,6 +22,7 @@
 ////////////////////////////////////////////////////////////////////////////////// 
 
 extern u8 USART_RX_BUF[64];     //接收缓冲,最大63个字节.末字节为换行符 
+extern u8 USART_TX_BUF[6];
 extern u8 USART_RX_STA;         //接收状态标记	
 
 void uart_init(u32 bound);
