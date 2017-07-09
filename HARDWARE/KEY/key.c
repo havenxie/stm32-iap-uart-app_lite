@@ -36,3 +36,4 @@ u8 KEY_Scan(void)
 		key_up=1; 	    
 	return 0;// 无按键按下
 }
+

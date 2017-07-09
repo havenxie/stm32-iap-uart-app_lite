@@ -91,9 +91,9 @@ int main(void)
 	NVIC_Configuration();//设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(115200);   //串口初始化为115200
  	KEY_Init();	         //LED端口初始化
-	
+	printf("hello,world\r\n");
 	while(1)
-	{		
+	{	printf("hello\r\n");
 		switch(KEY_Scan())
 		{
 			case FUN_KEY:
