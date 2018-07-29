@@ -23,7 +23,7 @@ int main(void)
 		}else
 		{
 			times++;
-			if(times%30==0)LED0=!LED0;//闪烁LED(PC13),提示系统正在运行.
+			if(times%50==0)LED0=!LED0;//闪烁LED(PC13),提示系统正在运行.
 			delay_ms(10);   
 		}
 	}	 

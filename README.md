@@ -68,11 +68,13 @@
 
 5. 编译工程，会在 OUTPUT 文件夹下生成hex文件和bin文件。
 
-6. 打开上位机工具，通过串口和MCU进行连接。
+6. 通过SWD或者JTAG等其他方式将bootloader部分烧录片内，该片子应该选择MD的bootloader(在烧录之前最好将flash先擦干净)。
 
-7. 选择上述生成的bin文件，将app通过iap写入flash（前提是你已经根据第一篇说明将对应的bootloader部分烧录片内，该片子应该选MD的bootloader）。
+7. 打开上位机工具，通过串口和MCU进行连接。
 
-8. 烧完之后自动运行app。
+7. 选择上述生成的bin文件，将app通过上位机工具写入flash。
+
+8. 烧完之后会自动运行app。
 
 注：bootloader部分只需要烧录一次即可，之后所有操作都通过上位机工具完成。
 
