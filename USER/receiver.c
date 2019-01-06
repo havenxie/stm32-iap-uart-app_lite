@@ -80,6 +80,10 @@ int main(void)
 			IAP_Handle(USART_RX_BUF);
 			Ltelligent_lamp_Handle(USART_RX_BUF);
 		}
+		delay_ms(100);
+		LED0 = 1;
+		delay_ms(100);
+		LED0 = 0;
 	}	 
 }
 
