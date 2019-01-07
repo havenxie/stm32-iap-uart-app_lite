@@ -2,20 +2,20 @@
 
 ## STM32串口IAP的Application部分使用说明
 
-> [在上一篇STM32串口IAP的bootloader部分使用说明](https://github.com/havenxie/stm32-iap-bootloader)中我们提到了app部分，这一篇我们来简单说一下app的基本配置使用。
+> [在上一篇STM32串口IAP的boot部分使用说明](https://github.com/havenxie/stm32-iap-uart-boot)中我们提到了app部分，这一篇我们来简单说一下app的基本配置使用。
 
 1. 该项目实现通过PC的串口对STM32系列MCU进行IAP。
 
 2. 该项目包含三个部分（三套代码）：
     
-    - 运行在STM32平台的Bootloader；
-    - 运行在STM32平台的App(我做了两个，另一个是支持[usmart的重量版](https://github.com/havenxie/stm32-iap-app)，这个是很简洁的轻量版)；
+    - 运行在STM32平台的Boot；
+    - 运行在STM32平台的App(我做了两个，另一个是支持[usmart的重量版](https://github.com/havenxie/stm32-iap-uart-app)，这个是很简洁的轻量版)；
     - 运行在Windows平台的上位机操作工具。
 
 3. 本篇是属于运行在STM32平台的Application部分（轻量版），另外两篇介绍请参阅：
     
-    - [windows平台操作工具](https://github.com/havenxie/winapp-iap)
-    - [STM32平台的Bootloader](https://github.com/havenxie/stm32-iap-bootloader)    
+    - [windows平台操作工具](https://github.com/havenxie/winapp-iap-uart)
+    - [STM32平台的Boot](https://github.com/havenxie/stm32-iap-uart-boot)    
 	
 4. 这套代码很简洁，对外围电路的要求只用到了一颗LED(PC13)。用它来指示系统运行。
 
@@ -63,12 +63,12 @@
 
 3. 代码配置：
     + 找到main函数，里面第一个执行的函数要是“IAP_Init()”，该函数里我们做了两件事，第一件是把flash标志清除，第二件是重新将中断向量表设置到app的起始位置。
-    + 打开iap.h文件，配置IAP_FLASH_SIZE的大小，即BOOTLOADER区的大小。（我这里是0X3000）
+    + 打开iap.h文件，配置IAP_FLASH_SIZE的大小，即BOOT区的大小。（我这里是0X3000）
     + 我们在while(1)循环中轮询检测是否接收到了一个完整的命令，当接收到完整命令后清除接收标志，然后进入IAP指令处理句柄，根据不同的指令执行不同的响应。（当然你也可将这部分放在串口接收中断里）
 
 5. 编译工程，会在 OUTPUT 文件夹下生成hex文件和bin文件。
 
-6. 通过SWD或者JTAG等其他方式将bootloader部分烧录片内，该片子应该选择MD的bootloader(在烧录之前将flash全片擦除干净)。
+6. 通过SWD或者JTAG等其他方式将boot部分烧录片内，该片子应该选择MD的boot(在烧录之前将flash全片擦除干净)。
 
 7. 打开上位机工具，通过串口和MCU进行连接。
 
@@ -76,7 +76,7 @@
 
 8. 烧完之后会自动运行app。
 
-注：bootloader部分只需要烧录一次即可，之后所有操作都通过上位机工具完成。
+注：boot部分只需要烧录一次即可，之后所有操作都通过上位机工具完成。
 
 
 *****
@@ -102,4 +102,4 @@
 > 代码时隔一年多再次更新，增加了通过后备寄存器来存储各种状态标志，使用方法见下：
 
 选择iap.h文件中的`define USE_BKP_SAVE_FLAG     1  //1:使用后备寄存器存储flag标志，0:使用flash存储flag标志（之前的版本就是这样）`
-注意bootloader部分的USE_BKP_SAVE_FLAG值要和bootloader保持一致
+注意boot部分的USE_BKP_SAVE_FLAG值要和boot保持一致
