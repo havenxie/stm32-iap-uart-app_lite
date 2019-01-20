@@ -3,8 +3,13 @@
 #include "sys.h"
 
 /***************************************************************************/
-#define PWM_TIM_ON()      {TIM_CtrlPWMOutputs(TIM1, ENABLE); TIM_Cmd(TIM1, ENABLE); TIM_Cmd(TIM3, ENABLE);}
-#define PWM_TIM_OFF()     {TIM_CtrlPWMOutputs(TIM1, DISABLE); TIM_Cmd(TIM1, DISABLE); TIM_Cmd(TIM3, DISABLE);}
+
+#define DBG_LED_RCC     RCC_APB2Periph_GPIOA
+#define DBG_LED_GPIO    GPIOA
+#define DBG_LED_PIN     GPIO_Pin_9
+#define DBG_LED_INDEX   9
+#define DEG_LED_MODE    GPIO_Mode_Out_OD
+#define DBG_LED_SPEED   GPIO_Speed_50MHz
 /***************************************************************************/
 
 typedef enum
@@ -23,6 +28,18 @@ typedef enum
     ON
 }LedValue;
 volatile LedValue currentLedValue = OFF;
+
+void LED_Init(void)
+{
+    GPIO_InitTypeDef  GPIO_InitStructure;
+    RCC_APB2PeriphClockCmd(DBG_LED_RCC , ENABLE);  
+    
+    GPIO_InitStructure.GPIO_Pin = DBG_LED_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_ResetBits(DBG_LED_GPIO, DBG_LED_PIN);	
+    GPIO_Init(DBG_LED_GPIO, &GPIO_InitStructure);
+}
 
 void LED_ConfigValue(GPIO_TypeDef* GPIOx, uint8_t GPIO_Pin, LedValue nextValue)
 {
@@ -156,21 +173,12 @@ uint8_t GetPinPos(uint16_t PINx)
     }
 }
 
-void LED_Init(void)
-{
-    GPIO_InitTypeDef  GPIO_InitStructure;
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA , ENABLE);  
-    
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_ResetBits(GPIOA, GPIO_Pin_9);	
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-}
+
 
 int main(void)
 {
     uint8_t cnt = 0;
+    //NVIC_SetVectorTable(FLASH_BASE, 0x4000);//???????
 	delay_init(72);	     //延时初始化
 	NVIC_Configuration();//设置NVIC中断分组2:2位抢占优先级，2位响应优先级
     LED_Init();
@@ -178,52 +186,52 @@ int main(void)
     TIM3_Int_Init(9999,71);    //T = 10ms not enable
     
     //Test1************************************************
-    LED_State_Handler(GPIOA, 9, General);
+    LED_State_Handler(DBG_LED_GPIO, DBG_LED_INDEX, General);
     for(cnt = 0; cnt < 5; cnt++)
     {
-        LED_ConfigValue(GPIOA, 9, ON);
+        LED_ConfigValue(DBG_LED_GPIO, DBG_LED_INDEX, ON);
         delay_ms(500);
-        LED_ConfigValue(GPIOA, 9, OFF);
+        LED_ConfigValue(DBG_LED_GPIO, DBG_LED_INDEX, OFF);
         delay_ms(500);
     }
-    LED_State_Handler(GPIOA, 9, All_Off);
+    LED_State_Handler(DBG_LED_GPIO, DBG_LED_INDEX, All_Off);
     delay_ms(1000);
     
     //Test2************************************************
-    LED_State_Handler(GPIOA, 9, Single_Blue);
+    LED_State_Handler(DBG_LED_GPIO, DBG_LED_INDEX, Single_Blue);
     for(cnt = 0; cnt < 5; cnt++)
     {
-        LED_ConfigValue(GPIOA, 9, ON);
+        LED_ConfigValue(DBG_LED_GPIO, DBG_LED_INDEX, ON);
         delay_ms(500);
-        LED_ConfigValue(GPIOA, 9, OFF);
+        LED_ConfigValue(DBG_LED_GPIO, DBG_LED_INDEX, OFF);
         delay_ms(500);
     }
-    LED_State_Handler(GPIOA, 9, All_Off);
+    LED_State_Handler(DBG_LED_GPIO, DBG_LED_INDEX, All_Off);
     delay_ms(1000);
 
     //Test3************************************************
-    LED_State_Handler(GPIOA, 9, Single_Red);
+    LED_State_Handler(DBG_LED_GPIO, DBG_LED_INDEX, Single_Red);
     for(cnt = 0; cnt < 5; cnt++)
     {
-        LED_ConfigValue(GPIOA, 9, ON);
+        LED_ConfigValue(DBG_LED_GPIO, DBG_LED_INDEX, ON);
         delay_ms(500);
-        LED_ConfigValue(GPIOA, 9, OFF);
+        LED_ConfigValue(DBG_LED_GPIO, DBG_LED_INDEX, OFF);
         delay_ms(500);
     }
-    LED_State_Handler(GPIOA, 9, All_Off);
+    LED_State_Handler(DBG_LED_GPIO, DBG_LED_INDEX, All_Off);
     delay_ms(1000);
     
     //Test4************************************************
-    LED_State_Handler(GPIOA, 9, Pwm_Blue);
+    LED_State_Handler(DBG_LED_GPIO, DBG_LED_INDEX, Pwm_Blue);
     for(cnt = 0; cnt < 5; cnt++)
     {
         delay_ms(1000);
     }
-    LED_State_Handler(GPIOA, 9, All_Off);
+    LED_State_Handler(DBG_LED_GPIO, DBG_LED_INDEX, All_Off);
     delay_ms(1000);
     
     //Test5************************************************
-    LED_State_Handler(GPIOA, 9, Pwm_Blue);
+    LED_State_Handler(DBG_LED_GPIO, DBG_LED_INDEX, Pwm_Blue);
 	while(1)
 	{
         ;

@@ -78,7 +78,7 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>1</RunUserProg2>
             <UserProg1Name>.\..\Binary\hex2bin.exe .\..\OUTPUT\receiver.hex</UserProg1Name>
             <UserProg2Name>.\..\Binary\hex2dfu.exe -t  .\..\OUTPUT\receiver.hex</UserProg2Name>
@@ -1509,7 +1509,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>..\OUTPUT\</OutputDirectory>
-          <OutputName>receiver</OutputName>
+          <OutputName>DBGLED</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -1540,10 +1540,10 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>1</RunUserProg2>
-            <UserProg1Name>.\..\Binary\hex2bin.exe .\..\OUTPUT\receiver.hex</UserProg1Name>
-            <UserProg2Name>.\..\Binary\hex2dfu.exe -t  .\..\OUTPUT\receiver.hex</UserProg2Name>
+            <UserProg1Name>.\..\Binary\hex2bin.exe .\..\OUTPUT\DBGLED.hex</UserProg1Name>
+            <UserProg2Name>.\..\Binary\hex2dfu.exe -t  .\..\OUTPUT\DBGLED.hex</UserProg2Name>
             <UserProg1Dos16Mode>1</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>1</UserProg2Dos16Mode>
             <nStopA1X>0</nStopA1X>
@@ -1611,7 +1611,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>3</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -1625,7 +1625,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>Segger\JL2CM3.dll</Driver>
+            <Driver>STLink\ST-LINKIII-KEIL_SWO.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>

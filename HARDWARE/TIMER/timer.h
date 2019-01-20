@@ -15,6 +15,11 @@
 //All rights reserved									  
 //********************************************************************************
 
+/***************************************************************************/
+#define PWM_TIM_ON()      {TIM_CtrlPWMOutputs(TIM1, ENABLE); TIM_Cmd(TIM1, ENABLE); TIM_Cmd(TIM3, ENABLE);}
+#define PWM_TIM_OFF()     {TIM_CtrlPWMOutputs(TIM1, DISABLE); TIM_Cmd(TIM1, DISABLE); TIM_Cmd(TIM3, DISABLE);}
+
+void TIM1_PWM_Init(u16 arr,u16 psc);
 void TIM3_Int_Init(u16 arr,u16 psc);
 void TIM3_PWM_Init(u16 arr,u16 psc);
 #endif
