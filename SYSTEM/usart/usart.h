@@ -20,7 +20,7 @@
 //增加了串口接收命令功能.
 //修正了printf第一个字符丢失的bug
 ////////////////////////////////////////////////////////////////////////////////// 
-//#define JTAG_PRINTF
+#define SWO_PRINTF
 extern u8 USART_RX_BUF[64];     //接收缓冲,最大63个字节.末字节为换行符 
 extern u8 USART_TX_BUF[6];
 extern u8 USART_RX_STA;         //接收状态标记	
