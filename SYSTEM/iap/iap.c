@@ -27,14 +27,23 @@ uint16_t IAP_ReadFlag(void)
 
 void IAP_Init(void)
 {
+<<<<<<< HEAD
 #if (USE_BKP_SAVE_FLAG == 1)
 	RCC_APB1PeriphClockCmd(RCC_APB1ENR_PWREN | RCC_APB1ENR_BKPEN , ENABLE); 
 #endif
 	NVIC_SetVectorTable(STM32_FLASH_BASE, IAP_FLASH_SIZE);//设置中断向量表
+=======
+#ifdef USE_IAP
+	u16 clearFlag = 0x0000;  //标志为运行状态
+	IAP_FLASH_WriteFlag( clearFlag );//清除IAP升级标志
+	NVIC_SetVectorTable(ApplicationAddress, IAP_FLASH_SIZE);//设置中断向量表
+#endif
+>>>>>>> 5344dea4e1b9cbd3afc7b4b2ee08f70a3d4cb9b2
 }
 
 void IAP_Handle(u8 * cmd)
 {
+#ifdef USE_IAP
 	if(strcmp((char *)cmd, "update") == 0)
 	{
 		IAP_WriteFlag(UPDATE_FLAG_DATA);
@@ -59,5 +68,6 @@ void IAP_Handle(u8 * cmd)
 		//printf("指令有误\r\n");
 		NVIC_SystemReset();	
 	}
+#endif
 }
 

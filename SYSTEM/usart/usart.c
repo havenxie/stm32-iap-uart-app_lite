@@ -1,27 +1,61 @@
 #include "sys.h"
 #include "usart.h"
-//////////////////////////////////////////////////////////////////////////////////	 
-//本程序只供学习使用，未经作者许可，不得用于其它任何用途
-//ALIENTEK Mini STM32开发板
-//串口1初始化		   
-//正点原子@ALIENTEK
-//技术论坛:www.openedv.com
-//修改日期:2010/5/27
-//版本：V1.3
-//版权所有，盗版必究。
-//Copyright(C) 正点原子 2009-2019
-//All rights reserved
-//********************************************************************************
-//V1.3修改说明 
-//支持适应不同频率下的串口波特率设置.
-//加入了对printf的支持
-//增加了串口接收命令功能.
-//修正了printf第一个字符丢失的bug
 ////////////////////////////////////////////////////////////////////////////////// 	  
 
+#ifdef  SWO_PRINTF
 
-//加入以下代码,支持printf函数,而不需要选择use MicroLIB
-#if 1
+#define ITM_Port8(n)    (*((volatile unsigned char *)(0xE0000000+4*n)))  
+#define ITM_Port16(n)   (*((volatile unsigned short*)(0xE0000000+4*n)))  
+#define ITM_Port32(n)   (*((volatile unsigned long *)(0xE0000000+4*n)))  
+#define DEMCR           (*((volatile unsigned long *)(0xE000EDFC)))  
+#define TRCENA          0x01000000  
+
+volatile int32_t ITM_RxBuffer=ITM_RXBUFFER_EMPTY;
+
+int fputc(int ch, FILE *f)
+{      
+	if (DEMCR & TRCENA)  
+    {  
+        while (ITM_Port32(0) == 0){};
+  
+        ITM_Port8(0) = ch;  
+    }  
+    return(ch);  
+}
+
+int fgetc(FILE *f)
+{
+  while (ITM_CheckChar() == 0);
+  return ITM_ReceiveChar();
+}
+ 
+
+int ferror(FILE *f)
+{
+    /* Your implementation of ferror */
+    return EOF;
+}
+ 
+//void _ttywrch(int c)
+//{
+//    fputc(c, 0);
+//}
+ 
+int __backspace()
+{
+    return 0;
+}
+
+#else 
+int fputc(int ch, FILE *f)
+{      
+	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
+    USART1->DR = (u8) ch;      
+	return ch;
+
+}
+#endif
+
 #pragma import(__use_no_semihosting)             
 //标准库需要的支持函数                 
 struct __FILE 
@@ -31,39 +65,18 @@ struct __FILE
 }; 
 
 FILE __stdout;       
+FILE __stdin;  
+
 //定义_sys_exit()以避免使用半主机模式    
 void _sys_exit(int x) 
 { 
 	x = x; 
 } 
-//重定义fputc函数 
-int fputc(int ch, FILE *f)
-{      
-	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
-    USART1->DR = (u8) ch;      
-	return ch;
-}
-#endif 
 
-/*使用microLib的方法*/
- /* 
-int fputc(int ch, FILE *f)
-{
-	USART_SendData(USART1, (uint8_t) ch);
 
-	while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET) {}	
-   
-    return ch;
-}
-int GetKey (void)  { 
-
-    while (!(USART1->SR & USART_FLAG_RXNE));
-
-    return ((int)(USART1->DR & 0x1FF));
-}
-*/
  
 u8 USART_RX_BUF[64];     //接收缓冲,最大64个字节.
+u8 USART_TX_BUF[6];
 //接收状态
 //bit7，接收完成标志
 //bit6，接收到0x0d

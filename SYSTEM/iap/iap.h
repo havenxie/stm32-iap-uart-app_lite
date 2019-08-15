@@ -2,6 +2,7 @@
 #define __IAP_H_
 #include "sys.h"
 
+<<<<<<< HEAD
 /* Define if use bkp save flag  -------------------------------*/
 #define USE_BKP_SAVE_FLAG     1
 
@@ -10,6 +11,11 @@
 #else
   #define INIT_FLAG_DATA      0xFFFF   //默认标志的数据(空片子的情况)
 #endif
+=======
+
+#define APPRUN_FLAG_DATA      0x0000   //APP不需要做任何处理，直接运行状态
+#define INIT_FLAG_DATA        0xFFFF   //默认标志的数据(空片子的情况)
+>>>>>>> 5344dea4e1b9cbd3afc7b4b2ee08f70a3d4cb9b2
 #define UPDATE_FLAG_DATA      0xEEEE   //下载标志的数据
 #define UPLOAD_FLAG_DATA      0xDDDD   //上传标志的数据
 #define ERASE_FLAG_DATA       0xCCCC   //擦除标志的数据
